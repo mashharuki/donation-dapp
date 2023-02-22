@@ -48,6 +48,14 @@ mod donation_ink {
             }
         }
 
+        /// A public contract function that has no side-effects.
+        ///
+        /// Note that while purely reading functions can be invoked
+        /// by submitting a transaction on-chain, this is usually
+        /// not done as they have no side-effects and the transaction
+        /// costs would be wasted.
+        /// Instead those functions are typically invoked via RPC to
+        /// return a contract's state.
         #[ink(message)]
         pub fn get_beneficiary(&self) -> Option<AccountId> {
             Some(self.beneficiary)
