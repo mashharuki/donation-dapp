@@ -9,17 +9,15 @@ import {
   useInkathon,
   useRegisteredContract,
 } from '@scio-labs/use-inkathon'
-import { FC, useEffect, useState } from 'react'
+import { FC, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export const CreateProposal: FC = () => {
+export const Donate: FC = () => {
   const { api, account, isConnected, signer } = useInkathon()
   const { contract } = useRegisteredContract(ContractIds.greeter)
-  const [greeterMessage, setGreeterMessage] = useState<string>()
-  const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>()
-  const form = useForm<{ proposal: string }>()
+  const form = useForm<{ amount: string }>()
   const { token } = theme.useToken()
 
   if (!contract) return null
@@ -32,16 +30,18 @@ export const CreateProposal: FC = () => {
 
     setUpdateIsLoading(true)
     try {
-      const proposal = form.getValues('proposal')
+      const amount = form.getValues('amount')
 
       // Estimate gas & send transaction
       await contractTx(
         api,
         account.address,
         contract,
-        'createProposal',
-        {},
-        [proposal],
+        'donate',
+        {
+          value: amount,
+        },
+        [],
         (result) => {
           if (result?.status?.isInBlock) {
             console.log(result)
@@ -49,10 +49,10 @@ export const CreateProposal: FC = () => {
         },
       )
       form.reset()
-      toast.success(`Successfully created proposal!`)
+      toast.success(`Successfully donated ${amount}`)
     } catch (e) {
       console.error(e)
-      toast.error('Error while updating greeting. Try again.')
+      toast.error('Error while donating. Try again…')
     } finally {
       setUpdateIsLoading(false)
     }
@@ -61,20 +61,22 @@ export const CreateProposal: FC = () => {
   return (
     <div
       css={css`
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
         border: 1px solid ${token.colorPrimary};
         max-width: 400px;
         padding: 1rem;
       `}
     >
       {Boolean(isConnected) && (
-        <Space direction="vertical" style={{ width: '100%' }}>
-          <FormLabel>Create proposal</FormLabel>
+        <>
           <Input
             disabled={updateIsLoading}
+            placeholder="Amount"
+            type="number"
             onChange={(e) => {
-              console.log('e.target.value', e.target.value)
-
-              form.setValue('proposal', e.target.value)
+              form.setValue('amount', e.target.value)
             }}
           />
           <Button
@@ -83,9 +85,9 @@ export const CreateProposal: FC = () => {
             type="primary"
             onClick={createProposal}
           >
-            Create proposal
+            Donate
           </Button>
-        </Space>
+        </>
       )}
     </div>
   )

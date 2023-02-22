@@ -13,9 +13,11 @@ mod donation_ink {
         feature = "std",
         derive(scale_info::TypeInfo, ink::storage::traits::StorageLayout)
     )]
+
     pub struct Donation {
         account: AccountId,
         amount: u128,
+        total_raised: u128, //total raised
     }
 
     // Donation struct default implementations
@@ -24,6 +26,7 @@ mod donation_ink {
             Self {
                 account: zero_address(),
                 amount: 0,
+                total_raised: 0,
             }
         }
     }
@@ -34,31 +37,33 @@ mod donation_ink {
         beneficiary: AccountId,
         donations: Mapping<DonationId, Donation>,
         donation_id: i32,
+        total_raised: u128,
     }
 
     impl DonationContract {
         #[ink(constructor)]
         pub fn new(beneficiary: AccountId) -> Self {
             let owner = Self::env().caller();
+
             Self {
                 owner,
                 beneficiary,
                 donations: Mapping::default(),
                 donation_id: 1,
+                total_raised: 0,
             }
         }
 
-        /// A public contract function that has no side-effects.
-        ///
-        /// Note that while purely reading functions can be invoked
-        /// by submitting a transaction on-chain, this is usually
-        /// not done as they have no side-effects and the transaction
-        /// costs would be wasted.
-        /// Instead those functions are typically invoked via RPC to
-        /// return a contract's state.
+        /// Returns the current beneficiary account.
         #[ink(message)]
         pub fn get_beneficiary(&self) -> Option<AccountId> {
             Some(self.beneficiary)
+        }
+
+        /// Returns the total amount raised.
+        #[ink(message)]
+        pub fn get_total_raised(&self) -> u128 {
+            self.total_raised
         }
 
         #[ink(message)]
@@ -72,7 +77,7 @@ mod donation_ink {
         }
 
         #[ink(message, payable)]
-        pub fn donation(&mut self) {
+        pub fn donate(&mut self) {
             // Account who is donating
             let caller = self.env().caller();
             let donation_id = self.next_donation_id();
@@ -82,6 +87,9 @@ mod donation_ink {
             let mut donated_so_far = self.donations.get(donation_id).unwrap_or_default();
 
             assert!(donation_amount > 0, "Cannot transfer 0 donation");
+
+            // Update total donation amount
+            self.total_raised += donation_amount;
 
             // Total donation amount so far by caller
             donated_so_far.amount += donation_amount;

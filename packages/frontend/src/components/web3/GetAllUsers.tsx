@@ -30,7 +30,7 @@ export const GetAllUsers: FC = () => {
       setData(message)
     } catch (e) {
       console.error(e)
-      toast.error('Error while fetching greeting. Try again…')
+      toast.error('Error while fetching getAllUsers. Try again…')
       setData(undefined)
     } finally {
       setFetchIsLoading(false)
