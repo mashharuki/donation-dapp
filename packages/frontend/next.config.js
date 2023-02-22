@@ -14,5 +14,5 @@ const isProd = process.env.NODE_ENV === 'production'
 
 module.exports = {
   ...nextConfig,
-  ...(isProd && { assetPrefix: '/wasm-voting' }),
+  ...(isProd && { assetPrefix: '/wasm-donation' }),
 }

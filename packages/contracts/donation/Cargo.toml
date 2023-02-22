@@ -1,5 +1,5 @@
 [package]
-name = "voting"
+name = "donation"
 version = "0.0.1"
 authors = ["Scio Labs <hello@scio.xyz>"]
 edition = "2021"
@@ -12,7 +12,7 @@ scale-info = { version = "2", default-features = false, features = ["derive"], o
 
 
 [lib]
-name = "voting"
+name = "donation"
 path = "lib.rs"
 crate-type = ["cdylib"]
 

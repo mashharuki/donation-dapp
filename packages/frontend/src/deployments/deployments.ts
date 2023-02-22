@@ -9,8 +9,8 @@ export const getDeployments = async (): Promise<SubstrateDeployment[]> => {
     {
       contractId: ContractIds.greeter,
       networkId: alephzeroTestnet.network,
-      abi: await import(`@inkathon/contracts/deployments/voting/metadata.json`),
-      address: (await import(`@inkathon/contracts/deployments/voting/alephzero-testnet.json`))
+      abi: await import(`@inkathon/contracts/deployments/donation/metadata.json`),
+      address: (await import(`@inkathon/contracts/deployments/donation/alephzero-testnet.json`))
         .address,
     },
     // TODO Add deployment for development chain
