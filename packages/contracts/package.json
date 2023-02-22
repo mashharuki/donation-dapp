@@ -1,0 +1,20 @@
+{
+  "name": "@inkathon/contracts",
+  "version": "0.0.1",
+  "homepage": "https://inkathon.xyz",
+  "scripts": {
+    "build": "cargo contract build --release --manifest-path ${CONTRACT:-voting}/Cargo.toml && pnpm copy-build",
+    "test": "cargo test --manifest-path ${CONTRACT:-voting}/Cargo.toml",
+    "node": "substrate-contracts-node --dev --port 9944 --base-path ./.node-data",
+    "copy-build": "mkdir -p deployments/${CONTRACT:-voting} && cp target/ink/${CONTRACT:-voting}/${CONTRACT:-voting}.json deployments/${CONTRACT:-voting}/metadata.json && cp target/ink/${CONTRACT:-voting}/${CONTRACT:-voting}.contract deployments/${CONTRACT:-voting}/",
+    "write-address": "mkdir -p deployments/${CONTRACT:-voting}/ && echo \"{\n  \\x22address\\x22: \\x22$ADDRESS\\x22\n}\" >deployments/${CONTRACT:-voting}/${CHAIN:-development}.json",
+    "contracts-ui": "open https://contracts-ui.substrate.io/?rpc=ws://127.0.0.1:9944",
+    "explorer-ui": "open https://polkadot.js.org/apps/#/explorer?rpc=ws://127.0.0.1:9944",
+    "dev": "pnpm contracts-ui && pnpm node"
+  },
+  "devDependencies": {
+    "@types/node": "^18.13.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  }
+}

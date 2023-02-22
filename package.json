@@ -1,0 +1,46 @@
+{
+  "name": "@inkathon/monorepo",
+  "description": "Full-Stack DApp Boilerplate for Substrate-based networks and ink! Smart Contracts",
+  "version": "0.0.1",
+  "homepage": "https://inkathon.xyz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scio-labs/inkathon"
+  },
+  "bugs": {
+    "url": "https://github.com/scio-labs/inkathon/issues"
+  },
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "engines": {
+    "node": ">=16 <=18"
+  },
+  "scripts": {
+    "dev:fe": "pnpm run --filter frontend dev",
+    "dev:contracts": "pnpm run --filter contracts dev",
+    "build": "pnpm run --filter frontend build",
+    "build:contracts": "pnpm run --filter contracts build",
+    "export": "pnpm run --filter frontend export",
+    "start": "pnpm run --filter frontend start",
+    "lint": "pnpm run --filter frontend lint",
+    "lint:fix": "pnpm run --filter frontend lint:fix",
+    "prepare": "husky install"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "next": "^13.0.0"
+      }
+    }
+  },
+  "devDependencies": {
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.2",
+    "typescript": "^4.9.5",
+    "next": "^13.1.6"
+  }
+}
