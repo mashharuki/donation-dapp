@@ -112,12 +112,19 @@ mod donation_ink {
             )
         }
 
+        /// Function to get all donations made so far.
         #[ink(message)]
-        pub fn get_donation(&mut self) -> Vec<Donation> {
+        pub fn get_donations(&mut self) -> Vec<Donation> {
+            // Create an empty vector to hold the donations.
             let mut donation: Vec<Donation> = Vec::new();
+
+            // Iterate over all donation IDs from 0 to the highest donation ID.
             for _donation in 0..self.donation_id {
+                // Check if the donation ID exists in the donations mapping.
                 match self.donations.get(_donation) {
+                    // If the donation exists, add it to the donations vector.
                     Some(value) => donation.push(value),
+                    // If the donation does not exist, do nothing.
                     None => (),
                 }
             }
