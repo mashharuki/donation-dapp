@@ -1,6 +1,6 @@
 {
   "source": {
-    "hash": "0x9b17ca08275f89b2056f3634c72bbf577eb0fc2a74ff2a979d94c7430c91e082",
+    "hash": "0xa01668c0255c614fe792110685daf6b31e103c44d0806a44c6f9438ea20e03f4",
     "language": "ink! 4.0.0",
     "compiler": "rustc 1.66.0",
     "build_info": {
@@ -158,8 +158,10 @@
       },
       {
         "args": [],
-        "docs": [],
-        "label": "get_donation",
+        "docs": [
+          " Function to get all donations made so far."
+        ],
+        "label": "get_donations",
         "mutates": true,
         "payable": false,
         "returnType": {
@@ -169,7 +171,7 @@
           ],
           "type": 13
         },
-        "selector": "0xe3885fe3"
+        "selector": "0x04f4f5d0"
       }
     ]
   },
