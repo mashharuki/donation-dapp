@@ -1,12 +1,12 @@
-import { Divider, Tabs, TabsProps } from 'antd'
-
-import { GetTotalRaised } from '@components/web3/GetTotalRaised'
-import { Donate } from '@components/web3/Donate'
-
+import { Divider, Space } from 'antd'
 import { useInkathon } from '@scio-labs/use-inkathon'
 import type { NextPage } from 'next'
 import { useEffect } from 'react'
 import { toast } from 'react-hot-toast'
+
+import { GetTotalRaised } from '@components/web3/GetTotalRaised'
+import { Donate } from '@components/web3/Donate'
+import { ChangeBeneficiary } from '@components/web3/ChangeBeneficiary'
 
 const HomePage: NextPage = () => {
   const { error } = useInkathon()
@@ -17,7 +17,11 @@ const HomePage: NextPage = () => {
 
   return (
     <>
-      <Donate />
+      <Space>
+        <Donate />
+        <Divider type="vertical" />
+        <ChangeBeneficiary />
+      </Space>
       <Divider />
       <GetTotalRaised />
     </>
