@@ -22,11 +22,6 @@ const columns = [
     dataIndex: 'amount',
     key: 'amount',
   },
-  {
-    title: 'Total raised',
-    dataIndex: 'totalRaised',
-    key: 'totalRaised',
-  },
 ]
 
 export const GetDonations: FC = () => {
