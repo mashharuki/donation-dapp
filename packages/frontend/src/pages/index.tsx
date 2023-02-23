@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import { toast } from 'react-hot-toast'
 
 import { GetTotalRaised } from '@components/web3/GetTotalRaised'
+import { GetBeneficiary } from '@components/web3/GetBeneficiary'
 import { Donate } from '@components/web3/Donate'
 import { ChangeBeneficiary } from '@components/web3/ChangeBeneficiary'
 
@@ -24,6 +25,8 @@ const HomePage: NextPage = () => {
       </Space>
       <Divider />
       <GetTotalRaised />
+      <Divider />
+      <GetBeneficiary />
     </>
   )
 }

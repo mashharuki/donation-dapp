@@ -11,32 +11,31 @@ import { FC, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export const GetTotalRaised: FC = () => {
+export const GetBeneficiary: FC = () => {
   const { api, account, isConnected, signer } = useInkathon()
   const { contract } = useRegisteredContract(ContractIds.greeter)
-  const [totalRaised, setTotalRaised] = useState<Array<any>>()
+  const [beneficiary, setBeneficiary] = useState<Array<any>>()
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>()
-  const form = useForm<{ newMessage: string }>()
 
-  const getTotalRaised = async () => {
+  const getBeneficiary = async () => {
     if (!contract || !api) return
     setFetchIsLoading(true)
     try {
-      const result = await contractQuery(api, '', contract, 'getTotalRaised')
+      const result = await contractQuery(api, '', contract, 'getBeneficiary')
       const message = unwrapResultOrError<Array<any>>(result)
-      setTotalRaised(message)
+      setBeneficiary(message)
     } catch (e) {
       console.error(e)
-      toast.error('Error while fetching getAllProposal. Try again…')
-      setTotalRaised(undefined)
+      toast.error('Error while fetching get beneficiary. Try again…')
+      setBeneficiary(undefined)
     } finally {
       setFetchIsLoading(false)
     }
   }
 
   useEffect(() => {
-    getTotalRaised()
+    getBeneficiary()
   }, [contract])
 
   if (!contract) return null
@@ -47,12 +46,12 @@ export const GetTotalRaised: FC = () => {
         type="primary"
         loading={updateIsLoading}
         disabled={updateIsLoading}
-        onClick={getTotalRaised}
+        onClick={getBeneficiary}
       >
-        getTotalRaised
+        Get beneficiary
       </Button>
       <Divider type="vertical" />
-      {totalRaised}
+      {beneficiary}
     </>
   )
 }
