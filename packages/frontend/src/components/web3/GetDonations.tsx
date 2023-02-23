@@ -1,4 +1,4 @@
-import { Descriptions, Button, Divider } from 'antd'
+import { Descriptions, Button, Divider, Table } from 'antd'
 import { ContractIds } from '@deployments/deployments'
 import {
   contractQuery,
@@ -11,32 +11,45 @@ import { FC, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import toast from 'react-hot-toast'
 
-export const GetTotalRaised: FC = () => {
+const columns = [
+  {
+    title: 'Account',
+    dataIndex: 'account',
+    key: 'account',
+  },
+  {
+    title: 'Amount',
+    dataIndex: 'amount',
+    key: 'amount',
+  },
+]
+
+export const GetDonations: FC = () => {
   const { api, account, isConnected, signer } = useInkathon()
   const { contract } = useRegisteredContract(ContractIds.greeter)
-  const [totalRaised, setTotalRaised] = useState<Array<any>>()
+  const [donations, setDonations] = useState<Array<any>>()
   const [fetchIsLoading, setFetchIsLoading] = useState<boolean>()
   const [updateIsLoading, setUpdateIsLoading] = useState<boolean>()
   const form = useForm<{ newMessage: string }>()
 
-  const getTotalRaised = async () => {
+  const getDonations = async () => {
     if (!contract || !api) return
     setFetchIsLoading(true)
     try {
-      const result = await contractQuery(api, '', contract, 'getTotalRaised')
+      const result = await contractQuery(api, '', contract, 'getDonations')
       const message = unwrapResultOrError<Array<any>>(result)
-      setTotalRaised(message)
+      setDonations(message)
     } catch (e) {
       console.error(e)
-      toast.error('Error while fetching getAllProposal. Try again…')
-      setTotalRaised(undefined)
+      toast.error('Error while fetching donations. Try again…')
+      setDonations(undefined)
     } finally {
       setFetchIsLoading(false)
     }
   }
 
   useEffect(() => {
-    getTotalRaised()
+    getDonations()
   }, [contract])
 
   if (!contract) return null
@@ -47,12 +60,12 @@ export const GetTotalRaised: FC = () => {
         type="primary"
         loading={updateIsLoading}
         disabled={updateIsLoading}
-        onClick={getTotalRaised}
+        onClick={getDonations}
       >
-        Get Total Raised
+        Get donations
       </Button>
       <Divider type="vertical" />
-      {totalRaised}
+      <Table dataSource={donations} columns={columns} />
     </>
   )
 }

@@ -8,6 +8,7 @@ import { GetTotalRaised } from '@components/web3/GetTotalRaised'
 import { GetBeneficiary } from '@components/web3/GetBeneficiary'
 import { Donate } from '@components/web3/Donate'
 import { ChangeBeneficiary } from '@components/web3/ChangeBeneficiary'
+import { GetDonations } from '@components/web3/GetDonations'
 
 const HomePage: NextPage = () => {
   const { error } = useInkathon()
@@ -25,8 +26,10 @@ const HomePage: NextPage = () => {
       </Space>
       <Divider />
       <GetTotalRaised />
-      <Divider />
+      <Divider type="vertical" />
       <GetBeneficiary />
+      <Divider />
+      <GetDonations />
     </>
   )
 }
